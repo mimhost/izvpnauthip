@@ -1,1 +1,2 @@
 # izvpnauthip
+authorized ip
