@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MYIP=$(wget -qO- ipinfo.io/ip);
-IZIN=$( curl -sS https://raw.githubusercontent.com/izhanworks/izvpnauthip/main/authipvps | awk '{print $4}' | grep $MYIP )
+IZIN=$( curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps | awk '{print $4}' | grep $MYIP )
 if [ $MYIP = $IZIN ]; then
 clear
 echo -e "${green}Tahniah! Anda Dibenarkan menggunakan SAMVPN...${NC}"
@@ -35,7 +35,7 @@ apt install openvpn easy-rsa unzip -y
 apt install openssl iptables iptables-persistent -y
 mkdir -p /etc/openvpn/server/easy-rsa/
 cd /etc/openvpn/
-wget https://raw.githubusercontent.com/izhanworks/vpsipauth/main/vpn.zip
+wget https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/vpn.zip
 unzip vpn.zip
 rm -f vpn.zip
 chown -R root:root /etc/openvpn/server/easy-rsa/

@@ -4,7 +4,7 @@ biji=$(date +"%Y-%m-%d" -d "$dateFromServer")
 #########################
 
 BURIQ() {
-    curl -sS https://raw.githubusercontent.com/izhanworks/izvpnauthip/main/authipvps >/root/tmp
+    curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps >/root/tmp
     data=($(cat /root/tmp | grep -E "^### " | awk '{print $2}'))
     for user in "${data[@]}"; do
         exp=($(grep -E "^### $user" "/root/tmp" | awk '{print $3}'))
@@ -21,7 +21,7 @@ BURIQ() {
 }
 
 MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://raw.githubusercontent.com/izhanworks/izvpnauthip/main/authipvps | grep $MYIP | awk '{print $2}')
+Name=$(curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps | grep $MYIP | awk '{print $2}')
 echo $Name >/usr/local/etc/.$Name.ini
 CekOne=$(cat /usr/local/etc/.$Name.ini)
 
@@ -38,7 +38,7 @@ Bloman() {
 
 PERMISSION() {
     MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS https://raw.githubusercontent.com/izhanworks/izvpnauthip/main/authipvps | awk '{print $4}' | grep $MYIP)
+    IZIN=$(curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps | awk '{print $4}' | grep $MYIP)
     if [ "$MYIP" = "$IZIN" ]; then
         Bloman
     else
@@ -76,7 +76,7 @@ commonname=syfqsam.xyz
 email=admin@syfqsam.xyz
 
 # simple password minimal
-wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/izhanworks/vpsipauth/main/password"
+wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/password"
 chmod +x /etc/pam.d/common-password
 
 # go to root
@@ -150,14 +150,14 @@ apt -y install nginx
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/izhanworks/vpsipauth/main/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/nginx.conf"
 mkdir -p /home/vps/public_html
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/izhanworks/vpsipauth/main/vps.conf"
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/vps.conf"
 /etc/init.d/nginx restart
 
 # install badvpn
 cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/izhanworks/vpsipauth/main/badvpn-udpgw64"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/badvpn-udpgw64"
 chmod +x /usr/bin/badvpn-udpgw
 sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 500' /etc/rc.local
 sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 500' /etc/rc.local
@@ -187,7 +187,7 @@ echo "/usr/sbin/nologin" >> /etc/shells
 # install squid
 cd
 apt -y install squid3
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/izhanworks/vpsipauth/main/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # setting vnstat
@@ -241,7 +241,7 @@ sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
 #OpenVPN
-wget https://raw.githubusercontent.com/izhanworks/vpsipauth/main/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
+wget https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
 
 # install fail2ban
 apt -y install fail2ban
