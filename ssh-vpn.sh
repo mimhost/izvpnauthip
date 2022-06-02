@@ -7,7 +7,7 @@ biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
 BURIQ () {
-    curl -sS https://notabug.org/sakai/izvpnauthip/raw/main/authipvps > /root/tmp
+    curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps > /root/tmp
     data=( `cat /root/tmp | grep -E "^### " | awk '{print $2}'` )
     for user in "${data[@]}"
     do
@@ -25,7 +25,7 @@ BURIQ () {
 }
 
 MYIP=$(curl -sS ipv4.icanhazip.com)
-Name=$(curl -sS https://notabug.org/sakai/izvpnauthip/raw/main/authipvps | grep $MYIP | awk '{print $2}')
+Name=$(curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps | grep $MYIP | awk '{print $2}')
 echo $Name > /usr/local/etc/.$Name.ini
 CekOne=$(cat /usr/local/etc/.$Name.ini)
 
@@ -42,7 +42,7 @@ fi
 
 PERMISSION () {
     MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS https://notabug.org/sakai/izvpnauthip/raw/main/authipvps | awk '{print $4}' | grep $MYIP)
+    IZIN=$(curl -sS https://raw.githubusercontent.com/mimhost/izvpnauthip/main/authipvps | awk '{print $4}' | grep $MYIP)
     if [ "$MYIP" = "$IZIN" ]; then
     Bloman
     else
@@ -55,7 +55,7 @@ red='\e[1;31m'
 green='\e[0;32m'
 yell='\e[1;33m'
 NC='\e[0m'
-curl -sS https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ascii-home
+curl -sS https://raw.githubusercontent.com/irwan-aidan/tetbot/main/resources/ascii-home
 echo "SSH & Ovpn"
 echo "Progress..."
 sleep 3
@@ -76,17 +76,17 @@ source /etc/os-release
 ver=$VERSION_ID
 
 #detail nama perusahaan
-country=ID
-state=ID
-locality=ID
-organization=None
-organizationalunit=None
-commonname=None
-email=github@scvps
+country=MY
+state=Sel
+locality=Gombak
+organization=AidanVPN
+organizationalunit=AidanVPN
+commonname=AidanVPN
+email=irwan@aidan.my
 
 # simple password minimal
 #curl -sS https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/password | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/pam.d/common-password
-wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/password"
+wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/password"
 chmod +x /etc/pam.d/common-password
 
 cd
@@ -254,7 +254,7 @@ echo -ne
 fi
 cd
 echo -e "[ ${green}INFO$NC ] Installing badvpn for game support..."
-wget -q -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/newudpgw"
+wget -q -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/newudpgw"
 chmod +x /usr/bin/badvpn-udpgw  >/dev/null 2>&1
 sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 500' /etc/rc.local >/dev/null 2>&1
 sed -i '$ i\screen -dmS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 500' /etc/rc.local >/dev/null 2>&1
@@ -281,8 +281,8 @@ fi
 
 # install squid
 cd
-#curl -sS "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/squid3.conf" | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/squid/squid.conf
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/squid3.conf"
+#curl -sS "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/squid3.conf" | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/squid/squid.conf
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # install stunnel
@@ -323,7 +323,7 @@ sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 #OpenVPN
 sleep 1
 echo -e "[ ${green}INFO$NC ] Install Openvpn"
-wget -q https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
+wget -q https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
 
 # install fail2ban
 # Instal DDOS Flate
@@ -350,7 +350,7 @@ echo -e "[ ${green}INFO$NC ] Config file at /usr/local/ddos/ddos.conf"
 # banner /etc/issue.net
 sleep 1
 echo -e "[ ${green}INFO$NC ] Settings banner"
-wget -q -O /etc/issue.net "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/issue.net"
+wget -q -O /etc/issue.net "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/issue.net"
 chmod +x /etc/issue.net
 echo "Banner /etc/issue.net" >> /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
@@ -378,29 +378,29 @@ sudo netfilter-persistent save >/dev/null 2>&1
 sudo netfilter-persistent reload >/dev/null 2>&1
 
 # download script
-wget -q -O /usr/bin/usernew "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/usernew.sh" && chmod +x /usr/bin/usernew
-wget -q -O /usr/bin/trial "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/trial.sh" && chmod +x /usr/bin/trial
-wget -q -O /usr/bin/hapus "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/hapus.sh" && chmod +x /usr/bin/hapus
-wget -q -O /usr/bin/member "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/member.sh" && chmod +x /usr/bin/member
-wget -q -O /usr/bin/delete "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/delete.sh" && chmod +x /usr/bin/delete
-wget -q -O /usr/bin/cek "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/cek.sh" && chmod +x /usr/bin/cek
-wget -q -O /usr/bin/restart "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/restart.sh" && chmod +x /usr/bin/restart
-wget -q -O /usr/bin/renew "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/renew.sh" && chmod +x /usr/bin/renew
-wget -q -O /usr/bin/autokill "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/autokill.sh" && chmod +x /usr/bin/autokill
-wget -q -O /usr/bin/ceklim "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ceklim.sh" && chmod +x /usr/bin/ceklim
-wget -q -O /usr/bin/tendang "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/tendang.sh" && chmod +x /usr/bin/tendang
-wget -q -O /usr/bin/port-dropbear "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/port-dropbear.sh" && chmod +x /usr/bin/port-dropbear
-wget -q -O /usr/bin/port-ovpn "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/port-ovpn.sh" && chmod +x /usr/bin/port-ovpn
-wget -q -O /usr/bin/port-ssl "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/port-ssl.sh" && chmod +x /usr/bin/port-ssl
-wget -q -O /usr/bin/banner "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/banner/banner.sh" && chmod +x /usr/bin/banner
-wget -q -O /usr/bin/sshws "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ins-sshws.sh" && chmod +x /usr/bin/sshws
-wget -q -O /usr/bin/ssh-menu "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ssh-menu.sh" && chmod +x /usr/bin/ssh-menu
-wget -q -O /usr/bin/port-wssl "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/port-ws-ssl.sh" && chmod +x /usr/bin/port-wssl
-wget -q -O /usr/bin/ohp "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ohp" && chmod +x /usr/bin/ohp
-wget -q -O /usr/bin/ohp-ssh "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ohp-ssh.sh" && chmod +x /usr/bin/ohp-ssh
-wget -q -O /usr/bin/ohp-db "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ohp-db.sh" && chmod +x /usr/bin/ohp-db
-wget -q -O /usr/bin/ohp-opn "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/ohp-opn.sh" && chmod +x /usr/bin/ohp-opn
-wget -q -O /usr/bin/portohp "https://raw.githubusercontent.com/izhanworks/izvpn-lite/main/portohp.sh" && chmod +x /usr/bin/portohp
+wget -q -O /usr/bin/usernew "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/usernew.sh" && chmod +x /usr/bin/usernew
+wget -q -O /usr/bin/trial "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/trial.sh" && chmod +x /usr/bin/trial
+wget -q -O /usr/bin/hapus "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/hapus.sh" && chmod +x /usr/bin/hapus
+wget -q -O /usr/bin/member "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/member.sh" && chmod +x /usr/bin/member
+wget -q -O /usr/bin/delete "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/delete.sh" && chmod +x /usr/bin/delete
+wget -q -O /usr/bin/cek "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/cek.sh" && chmod +x /usr/bin/cek
+wget -q -O /usr/bin/restart "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/restart.sh" && chmod +x /usr/bin/restart
+wget -q -O /usr/bin/renew "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/renew.sh" && chmod +x /usr/bin/renew
+wget -q -O /usr/bin/autokill "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/autokill.sh" && chmod +x /usr/bin/autokill
+wget -q -O /usr/bin/ceklim "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ceklim.sh" && chmod +x /usr/bin/ceklim
+wget -q -O /usr/bin/tendang "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/tendang.sh" && chmod +x /usr/bin/tendang
+wget -q -O /usr/bin/port-dropbear "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/port-dropbear.sh" && chmod +x /usr/bin/port-dropbear
+wget -q -O /usr/bin/port-ovpn "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/port-ovpn.sh" && chmod +x /usr/bin/port-ovpn
+wget -q -O /usr/bin/port-ssl "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/port-ssl.sh" && chmod +x /usr/bin/port-ssl
+wget -q -O /usr/bin/banner "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/banner/banner.sh" && chmod +x /usr/bin/banner
+wget -q -O /usr/bin/sshws "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ins-sshws.sh" && chmod +x /usr/bin/sshws
+wget -q -O /usr/bin/ssh-menu "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ssh-menu.sh" && chmod +x /usr/bin/ssh-menu
+wget -q -O /usr/bin/port-wssl "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/port-ws-ssl.sh" && chmod +x /usr/bin/port-wssl
+wget -q -O /usr/bin/ohp "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ohp" && chmod +x /usr/bin/ohp
+wget -q -O /usr/bin/ohp-ssh "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ohp-ssh.sh" && chmod +x /usr/bin/ohp-ssh
+wget -q -O /usr/bin/ohp-db "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ohp-db.sh" && chmod +x /usr/bin/ohp-db
+wget -q -O /usr/bin/ohp-opn "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/ohp-opn.sh" && chmod +x /usr/bin/ohp-opn
+wget -q -O /usr/bin/portohp "https://raw.githubusercontent.com/mimhost/izvpnauthip/main/vpsipauth/portohp.sh" && chmod +x /usr/bin/portohp
 
 cat <<EOF > /etc/systemd/system/ohp-ssh.service
 [Unit]
